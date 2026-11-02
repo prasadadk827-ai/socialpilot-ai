@@ -1,0 +1,53 @@
+llm:
+  provider: auto          # auto | anthropic | openai | mock  (auto = whichever API key is set, else mock)
+  model: ""               # blank = sensible default for the provider
+  max_tokens: 8000
+
+business:
+  goal: "Build a trusted brand that helps people solve everyday problems while generating sustainable online income."
+  timezone: "Europe/Amsterdam"
+  priority_categories:
+    - Personal finance
+    - Productivity
+    - AI tools
+    - Home improvement
+    - Health habits
+    - Career growth
+    - Mobile technology
+    - Education
+
+research:
+  top_n: 20
+  geo: "US"
+  sources:
+    google_trends: { enabled: true }
+    youtube:
+      enabled: true               # needs YOUTUBE_API_KEY, skipped otherwise
+      category_ids: [26, 27, 28]  # Howto & Style, Education, Science & Tech
+      limit: 15
+    reddit:
+      enabled: true               # works better with REDDIT_CLIENT_ID/SECRET
+      limit: 8
+      subreddits: [personalfinance, productivity, ChatGPT, homeimprovement, DIY, loseit,
+                   getdisciplined, careerguidance, iphone, Android, GetStudying, LifeProTips]
+    news:
+      enabled: true
+      feeds:
+        - http://feeds.bbci.co.uk/news/technology/rss.xml
+        - http://feeds.bbci.co.uk/news/business/rss.xml
+        - http://feeds.bbci.co.uk/news/health/rss.xml
+        - https://feeds.npr.org/1019/rss.xml
+    # Quora, Pinterest Trends, X and TikTok have no free official trend API.
+    # Export what you see there into this CSV (source,title,url,score,notes).
+    manual_csv: { enabled: true, path: data/manual_signals.csv }
+
+pipeline:
+  topics_per_day: 5
+  video_formats: ["30s", "60s", "2min"]   # remove entries to save API cost
+  output_dir: reports
+  data_dir: data
+
+publishing:
+  platforms: [YouTube, Facebook, Instagram, LinkedIn, Pinterest, TikTok, X]
+  start_offset_days: 1          # first post goes out tomorrow
+  webhook_env: SOCIAL_WEBHOOK_URL
